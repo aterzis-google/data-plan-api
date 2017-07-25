@@ -96,10 +96,7 @@ of data plans that are representative of the concepts that we want to capture.
         modules that a user has purchased and their relative priority to
         determine how it will be charged.
 
-![Data
-Plan](https://docs.google.com/drawings/d/1GFO0mpcQC7NFjWwzSSY_t3Jwnwx-JA2nrXUIO3hDITU/export/png)
-
-[view/edit](https://docs.google.com/drawings/d/1GFO0mpcQC7NFjWwzSSY_t3Jwnwx-JA2nrXUIO3hDITU/edit)
+![Data Plan](Data Plan API Sample Plan.png)
 
 **Figure 1. Sample data plans.**
 
@@ -143,8 +140,6 @@ Next, we explain the mechanism that establishes a CPID.
 #### 5.1.1 CPID Query {#5-1-1-cpid-query}
 
 ![CPID](https://docs.google.com/drawings/d/1vGKmdwyVFf0mUfGRh7ithNQvxr2oQ6gmzuWEbMeZ710/export/png)
-
-[view/edit](https://docs.google.com/drawings/d/1vGKmdwyVFf0mUfGRh7ithNQvxr2oQ6gmzuWEbMeZ710/edit)
 
 **Figure 2. Call flow to establish and maintain a Carrier Plan ID (CPID).**
 
