@@ -96,7 +96,7 @@ of data plans that are representative of the concepts that we want to capture.
         modules that a user has purchased and their relative priority to
         determine how it will be charged.
 
-![Data Plan](Data Plan API Sample Plan.png)
+![Data Plan](https://github.com/aterzis-google/data-plan-api/blob/master/Data%20Plan%20API%20CPID.png)
 
 **Figure 1. Sample data plans.**
 
