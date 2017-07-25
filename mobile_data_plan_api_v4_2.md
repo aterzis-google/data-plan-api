@@ -401,7 +401,7 @@ about the error. The error response body MUST use the following structure:
 
 ``` json
 {
-  "error": string
+  "error": string,
   "cause": integer
 }
 
