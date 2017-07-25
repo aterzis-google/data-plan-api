@@ -97,6 +97,7 @@ of data plans that are representative of the concepts that we want to capture.
         determine how it will be charged.
 
 ![Data Plan](https://github.com/aterzis-google/data-plan-api/blob/master/Data%20Plan%20API%20Sample%20Plan.png)
+
 **Figure 1. Sample data plans.**
 
 ## 5. API Description {#5-api-description}
@@ -139,6 +140,7 @@ Next, we explain the mechanism that establishes a CPID.
 #### 5.1.1 CPID Query {#5-1-1-cpid-query}
 
 ![CPID](https://github.com/aterzis-google/data-plan-api/blob/master/Data%20Plan%20API%20CPID.png)
+
 **Figure 2. Call flow to establish and maintain a Carrier Plan ID (CPID).**
 
 Figure 2 illustrates the steps involved in establishing a CPID.
