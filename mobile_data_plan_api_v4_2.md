@@ -293,7 +293,7 @@ uses to establish the CPID, described in Section [5.1.1](#65-1-1-cpid-query).
 
 The format of the response JSON object is as follows:
 
-``` json
+```
 {
  "dataPlanStatus":
  [
@@ -399,7 +399,7 @@ Currently defined error cases are:
 In all error cases, the DPA MUST include a JSON object with more information
 about the error. The error response body MUST use the following structure:
 
-``` json
+```
 {
   "error": string,
   "cause": integer,
@@ -695,7 +695,7 @@ The DPA SHALL only generate a 200-OK response for a successfully executed
 transaction. The body of the response includes the following transaction
 details:
 
-```json
+```
 {
   "purchaseResponse": {
     "planId": string,               // copied from request. (req.)
@@ -751,7 +751,7 @@ The error cases and causes for the eligibility API call are the same as the ones
 defined in Section [5.2.3](#5-2-3-error-cases). Otherwise, the DPA SHALL return
 a 200-OK response. The format of a successful response is:
 
-```json
+```
 {
   "eligiblePlans":
   [
