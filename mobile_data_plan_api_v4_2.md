@@ -293,7 +293,7 @@ uses to establish the CPID, described in Section [5.1.1](#65-1-1-cpid-query).
 
 The format of the response JSON object is as follows:
 
-```
+``` json
 {
  "dataPlanStatus":
  [
@@ -402,7 +402,7 @@ about the error. The error response body MUST use the following structure:
 ``` json
 {
   "error": string,
-  "cause": integer
+  "cause": integer,
 }
 
 ```
