@@ -265,7 +265,7 @@ shared for the rest of API components
 Steps 1 and 3 in Figure 3 are private Google APIs and are therefore not further
 described. Step 2 is a public API described hereafter (Sections
 [5.2](#5-2-querying-data-plan-status) to [5.6](#5-6-data-purchase)). The DPA
-MUST respect the `cache-control` HTTP header when serving these API calls from
+MUST respect the `Cache-Control: no-cache` HTTP header when serving these API calls from
 GTAF.
 
 Before the GTAF can call the DPA it needs to establish a bidirectional security
@@ -299,15 +299,25 @@ The format of the response JSON object is as follows:
    "planId": string,            // Plan identifier. Can be used to
                                 // refer to the plan during
                                 // upsells, etc. (req.)
-   "planCategory": string,      // PREPAID, POSTPAID (opt.)
    "expirationTime": string     // in ISO8601 extended format. (req.)
-   "roaming": boolean,          // boolean indicating roaming state (opt.)
    "planModuleStatus" : [       // (req.)
     {
      "quotaBytes": integer,     // package quota in bytes (opt.)
                                 // for unlimited plan, set to 2^63-1.
      "remainingBytes": integer, // byte-based plan balance.
                                 // Not used for unlimited plans (opt.)
+     "remainingBalanceLevel": string,
+                                // coarse account balance level (opt.)
+                                // Possible values:
+                                // Zero bytes left in the plan module. 
+                                // "REMAINING_DATA_ZERO"
+                                // Can be used to show an "almost out of                      
+                                // data" promotion.
+                                // "REMAINING_DATA_LOW",
+                                // Data level is high, do nothing.                                                                                             // "REMAINING_DATA_HIGH"
+                                // Exactly one of the "remainingBytes",
+                                // "remainingTime", and "balanceLevel" 
+                                // should be included in the response.
      "pmtcs": [                 // PMTCs that this module applies (req.)
        string                   // e.g., "VIDEO_BROWSING"
      ]
@@ -349,8 +359,8 @@ The format of the response JSON object is as follows:
 }
 ```
 
-Note that at least one of `remainingBytes` or `remainingTime` fields MUST be
-present in `planModuleStatus`.
+Note that one of `remainingBytes`, `remainingBalanceLevel`, or `remainingTime` 
+fields MUST be present in `planModuleStatus`.
 
 The request SHALL include an `Accept-Language` header indicating the language
 that the human readable strings (e.g., plan descriptions) should be in.
@@ -418,6 +428,10 @@ The following `cause` values are currently defined:
     unrecognized.
 1.  BACKEND_FAILURE = 6. While the DPA itself is operational, the backend
     necessary to complete the request is not.
+1.  REQUEST_QUEUED = 7. The DPA has queued a request for processing but the 
+    outcome of the request is still pending. The client may retry the request
+    to retrieve the result of the request. The DPA will return REQUEST_QUEUED
+    to requests that arrive before processing of the original request has completed.
 
 Otherwise, the DPA returns a 200 OK. We note that these `cause` values are used
 for all responses.
@@ -487,6 +501,18 @@ The format of the response JSON object is as follows:
      "currentmaxRate": integer,  // in kbits per second (opt.)
      "remainingTime": integer,   // time-based remaining
                                  // usage, in minutes (opt.)
+     "remainingBalanceLevel": string,
+                                // coarse account balance level (opt.)
+                                // Possible values:
+                                // Zero bytes left in the plan module. 
+                                // "REMAINING_DATA_ZERO"
+                                // Can be used to show an "almost out of                      
+                                // data" promotion.
+                                // "REMAINING_DATA_LOW",
+                                // Data level is high, do nothing.                                                                                             // "REMAINING_DATA_HIGH"
+                                // Exactly one of the "remainingBytes",
+                                // "remainingTime", and "balanceLevel" 
+                                // should be included in the response.                                 
      "quotaBytes": integer,      // package quota in bytes (opt.)
                                  // for unlimited plan, set to 2^63-1.
      "quotaMinutes": integer,    // package quota in minutes (opt.)
@@ -520,8 +546,8 @@ The format of the response JSON object is as follows:
 }
 ```
 
-Note that at least one of `remainingBytes` or `remainingTime` field MUST be
-present in planModule.
+Note that one of `remainingBytes`, `remainingBalanceLevel`, or `remainingTime` 
+field MUST be present in planModule.
 
 The request SHALL include an `Accept-Language` header indicating the language
 that the human readable strings (e.g., plan descriptions) should be in. The
@@ -569,7 +595,9 @@ The format of the response JSON object is as follows:
     "planLanguage": string,      // two letter ISO language-code (opt.)
     "overusagePolicy": string,   // THROTTLED, BLOCKED,
                                  // PAY_AS_YOU_GO (opt.)
-    "planType": string,          // VDP, GENERIC, COMPOSITE, etc. (req.)
+    "pmtcs": [ 
+      string,                    // pmtcs that this module applies, e.g.,
+    ]                            // VDP, GENERIC, COMPOSITE, etc. (req.)
     "maxRate": integer           // current rate (opt.)
     "cost": string               // (req.)
     "costCurrency": string       // (req.)
@@ -739,6 +767,8 @@ The DPA SHALL return an error in the following error cases:
     incompatible with the user's data plan.
 *   The DPA returns a 410 GONE error code indicating to the GTAF that the client
     should get a new CPID if `key_type` is CPID and the CPID has expired.
+*   The DPA returns a 501 NOT_IMPLEMENTED error code indicating that it does 
+    not support the eligibility call.
 *   The DPA returns a 503 UNAVAILABLE error code indicating that it is
     unavailable.
 
