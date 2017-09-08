@@ -6,7 +6,7 @@
 
 Table of Contents
 
-[TOC]
+"[TOC]
 
 ## 1. Motivation {#1-motivation}
 
@@ -701,15 +701,8 @@ transaction outcomes:
 *   The DPA returns a 500 INTERNAL SERVER ERROR error code for all other
     unspecified errors.
 
-The error response MUST include a JSON object with more information about the
-error. The error response body has the following structure:
-
-```
-{
- "error": string
- "cause": integer
-}
-```
+The error causes for the eligibility API call are the same as the ones
+defined in Section [5.2.3](#5-2-3-error-cases).
 
 The DPA SHALL only generate a 200-OK response for a successfully executed
 transaction. The body of the response includes the following transaction
