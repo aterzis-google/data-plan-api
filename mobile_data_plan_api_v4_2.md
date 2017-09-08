@@ -189,10 +189,10 @@ error. The error response body has the following structure:
 }
 ```
 
+See Section [5.2.3](#5-2-3-error-cases) for a description of the `cause` field. 
 Clients that receive any 4xx response codes MUST restrict any further use of the
 Data Plan API until client app restarts or connection type/roaming status
-changes. See Section [5.2.3](#5-2-3-error-cases) for a description of the
-`cause` field.
+changes.
 
 Otherwise, the CPID endpoint returns a 200 OK response. The response MUST also
 include a JSON object. The format of the JSON is:
