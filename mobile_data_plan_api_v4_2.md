@@ -171,13 +171,13 @@ specified by Google during the endpoint registration process.
 The CPID endpoint returns an error code if it cannot serve the request.
 Currently defined error cases are:
 
+*   CPID endpoint received CPID request for unknown application identifier.
+    The CPID endpoint MAY return error code 400.
 *   CPID endpoint received CPID request from user who has not opted in the
     program of sharing data plan information with Google. The CPID endpoint MUST
     return error code 403.
 *   CPID endpoint received CPID request from user that is roaming. The CPID
     endpoint MUST return error code 403.
-*   CPID endpoint received CPID request for unknown application identifier.
-    The CPID endpoint MAY return error code 400.
 
 The error response MUST include a JSON object with more information about the
 error. The error response body has the following structure:
@@ -193,7 +193,6 @@ Clients that receive any 4xx response codes MUST restrict any further use of the
 Data Plan API until client app restarts or connection type/roaming status
 changes. See Section [5.2.3](#5-2-3-error-cases) for a description of the
 `cause` field.
-
 
 Otherwise, the CPID endpoint returns a 200 OK response. The response MUST also
 include a JSON object. The format of the JSON is:
@@ -392,12 +391,12 @@ throughout the lifetime of a data plan.
 
 Currently defined error cases are:
 
+*   User is currently roaming and DPA query is disabled for this user. The DPA
+    returns a 403 error.
 *   The DPA returns a 404 NOT_FOUND error code indicating to the GTAF that the
     `data_plan_key_string` is invalid (i.e., non-existing CPID/MSISDN).
 *   The DPA returns a 410 GONE error code indicating to the GTAF that the client
     should get a new CPID if *key_type = CPID* and the CPID has expired.
-*   User is currently roaming and DPA query is disabled for this user. The DPA
-    returns a 403 error.
 
 In all error cases, the DPA MUST include a JSON object with more information
 about the error. The error response body MUST use the following structure:
@@ -686,19 +685,19 @@ the transaction itself:
     attempted.
 
 Additionally, the following error codes are defined to represent failed
-transaction outcome:
+transaction outcomes:
 
+*   The DPA returns a 400 BAD REQUEST error code indicating to the GTAF that the
+    purchased plan ID is invalid.
+*   The DPA returns a 402 PAYMENT REQUIRED error code indicating to the GTAF
+    that user does not have sufficient balance to complete the purchase.
+*   The DPA returns a 403 FORBIDDEN error code indicating to the GTAF that the
+    current transaction is a duplicate of a previously succeed transaction.
 *   The DPA returns a 409 CONFLICT error code indicating to the GTAF that the
     plan to be purchased is incompatible with user's current product mix. For
     example, if the carrier data plan policy disallows mixing postpaid and
     prepaid plans, attempting to purchase a prepaid plan for a postpaid user
     will therefore lead to a 409 CONFLICT error.
-*   The DPA returns a 402 PAYMENT REQUIRED error code indicating to the GTAF
-    that user does not have sufficient balance to complete the purchase.
-*   The DPA returns a 400 BAD REQUEST error code indicating to the GTAF that the
-    purchased plan ID is invalid.
-*   The DPA returns a 403 FORBIDDEN error code indicating to the GTAF that the
-    current transaction is a duplicate of a previously succeed transaction.
 *   The DPA returns a 500 INTERNAL SERVER ERROR error code for all other
     unspecified errors.
 
@@ -770,7 +769,7 @@ The DPA SHALL return an error in the following error cases:
 *   The DPA returns a 503 UNAVAILABLE error code indicating that it is
     unavailable.
 
-The error cases and causes for the eligibility API call are the same as the ones
+The error causes for the eligibility API call are the same as the ones
 defined in Section [5.2.3](#5-2-3-error-cases). Otherwise, the DPA SHALL return
 a 200-OK response. The format of a successful response is:
 
@@ -798,4 +797,3 @@ returning the list of eligible plans it MUST return a 400 BAD REQUEST error.
 
 [^1]: The VIDEO_OFFLINE PMTC means this plan is good for offline only (e.g.,
     really bad streaming QoE). It is independent of FlexTime window.
-
