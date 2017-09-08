@@ -240,9 +240,7 @@ string used by GTAF when calling the DPA.
 
 #### 5.2.1 GTAF-DPA Interaction {#5-2-1-gtaf-dpa-interaction}
 
-![DPA](https://docs.google.com/drawings/d/11fJuPf4uW3_Se8gJoRz7dY1b8RdcG-SnBYrXykZbEGg/export/png)
-
-[view/edit](https://docs.google.com/drawings/d/11fJuPf4uW3_Se8gJoRz7dY1b8RdcG-SnBYrXykZbEGg/edit)
+![DPA](https://github.com/aterzis-google/data-plan-api/blob/master/Data%20Plan%20API%20DPA.png)
 
 **Figure 3. Call flow to request and receive user data plan information.**
 
