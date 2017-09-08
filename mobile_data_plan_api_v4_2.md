@@ -435,6 +435,10 @@ The following `cause` values are currently defined:
     outcome of the request is still pending. The client may retry the request
     to retrieve the result of the request. The DPA will return REQUEST_QUEUED
     to requests that arrive before processing of the original request has completed.
+1.  UNKNOWN_APP = 8. The CPID endpoint received a request from an unknown application. 
+1.  USER_ROAMING = 9. The CPID endpoint or the DPA received a request for a user
+    that is currently roaming. 
+1.  USER_OPT_OUT = 10. User has not opted in the program. 
 
 Otherwise, the DPA returns a 200 OK. We note that these `cause` values are used
 for all responses.
