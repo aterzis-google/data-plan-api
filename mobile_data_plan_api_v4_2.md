@@ -397,6 +397,12 @@ Currently defined error cases are:
     `data_plan_key_string` is invalid (i.e., non-existing CPID/MSISDN).
 *   The DPA returns a 410 GONE error code indicating to the GTAF that the client
     should get a new CPID if *key_type = CPID* and the CPID has expired.
+*   The DPA returns a 501 NOT_IMPLEMENTED error code indicating that it does 
+    not support this call.
+*   Service temporarily unavailable. The DPA returns a 503 SERVICE UNAVAILABLE 
+    with the Retry-After header indicating when a new request can be attempted.
+*   The DPA returns a 500 INTERNAL SERVER ERROR error code for all other
+    unspecified errors.
 
 In all error cases, the DPA MUST include a JSON object with more information
 about the error. The error response body MUST use the following structure:
@@ -653,7 +659,7 @@ DPA. The URL of the request is:
 POST DPA_URL/data_plan_key_string/purchasePlan?key_type={CPID,MSISDN}&appid={carrier_app_id}
 ```
 
-where `data_plan_key_string` is either `cpid_string` or `MSISDN` (if permitted).
+where `data_plan_key_string` is either `cpid_string` or `MSISDN` (if per50mitted).
 The body of the request includes the following fields:
 
 ```
@@ -673,19 +679,9 @@ The body of the request includes the following fields:
 
 #### 5.6.2 Purchase Response {#5-6-2-purchase-response}
 
-The DPA SHALL return an error in the following error cases that are unrelated to
-the transaction itself:
-
-*   The DPA returns a 404 NOT FOUND error code indicating to the GTAF that the
-    `data_plan_key_string` is invalid (i.e., non-existing CPID/MSISDN).
-*   The DPA returns a 410 GONE error code indicating to the GTAF that the client
-    should get a new CPID if *key_type = CPID* and the CPID has expired.
-*   Data plan purchase is temporarily unavailable. The DPA returns a 503 SERVICE
-    UNAVAILABLE with the Retry-After header indicating when a new request can be
-    attempted.
-
-Additionally, the following error codes are defined to represent failed
-transaction outcomes:
+The DPA SHALL return the error codes and causes defined in 
+Section [5.2.3](#5-2-3-error-cases). Additionally, the following error 
+codes are defined to represent failed transaction outcomes:
 
 *   The DPA returns a 400 BAD REQUEST error code indicating to the GTAF that the
     purchased plan ID is invalid.
@@ -698,11 +694,6 @@ transaction outcomes:
     example, if the carrier data plan policy disallows mixing postpaid and
     prepaid plans, attempting to purchase a prepaid plan for a postpaid user
     will therefore lead to a 409 CONFLICT error.
-*   The DPA returns a 500 INTERNAL SERVER ERROR error code for all other
-    unspecified errors.
-
-The error causes for the eligibility API call are the same as the ones
-defined in Section [5.2.3](#5-2-3-error-cases).
 
 The DPA SHALL only generate a 200-OK response for a successfully executed
 transaction. The body of the response includes the following transaction
@@ -747,24 +738,17 @@ purchase the plan on behalf of the user (See
 Section [5.6](#5-6-data-purchase)). If `plan_id` is not specified the DPA MAY
 choose to return all plans purchasable by that user.
 
-The DPA SHALL return an error in the following error cases:
+The DPA SHALL return the error codes and causes defined in 
+Section [5.2.3](#5-2-3-error-cases). Additionally, the DPA SHALL return 
+an error in the following error cases:
 
 *   The DPA returns a 400 BAD REQUEST error code indicating to the GTAF that
     `plan_id` is invalid.
-*   The DPA returns a 404 NOT_FOUND error code indicating to the GTAF that the
-    `data_plan_key_string` is invalid (i.e., non-existing CPID/MSISDN).
 *   The DPA returns a 409 CONFLICT error code indicating that `plan_id` is
     incompatible with the user's data plan.
-*   The DPA returns a 410 GONE error code indicating to the GTAF that the client
-    should get a new CPID if `key_type` is CPID and the CPID has expired.
-*   The DPA returns a 501 NOT_IMPLEMENTED error code indicating that it does 
-    not support the eligibility call.
-*   The DPA returns a 503 UNAVAILABLE error code indicating that it is
-    unavailable.
 
-The error causes for the eligibility API call are the same as the ones
-defined in Section [5.2.3](#5-2-3-error-cases). Otherwise, the DPA SHALL return
-a 200-OK response. The format of a successful response is:
+Otherwise, the DPA SHALL return a 200-OK response. The format of a 
+successful response is:
 
 ```
 {
