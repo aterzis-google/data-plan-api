@@ -438,7 +438,10 @@ The following `cause` values are currently defined:
 1.  UNKNOWN_APP = 8. The CPID endpoint received a request from an unknown application. 
 1.  USER_ROAMING = 9. The CPID endpoint or the DPA received a request for a user
     that is currently roaming. 
-1.  USER_OPT_OUT = 10. User has not opted in the program. 
+1.  USER_OPT_OUT = 10. User has not opted in the program.
+1.  SIM_RELOAD_REQUIRED = 11. The phone number provided in the request is in a
+    "grace period" where a subscriber can receive incoming calls but cannot use
+    mobile data. User has to top up credits or buy data packs to get out of this state.
 
 Otherwise, the DPA returns a 200 OK. We note that these `cause` values are used
 for all responses.
