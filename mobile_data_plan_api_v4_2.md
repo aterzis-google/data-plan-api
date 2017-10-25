@@ -8,13 +8,13 @@ Table of Contents
 
 "[TOC]
 
-## 1. Motivation {#1-motivation}
+## 1. Motivation
 
 The goal of this document is to describe the public interfaces that Google will
 use to identify the users' mobile data plans, collect information about these
 plans, and purchase data plans.
 
-## 2. Changes {#2-changes}
+## 2. Changes
 
 The v4.2 API introduces the following changes:
 
@@ -22,7 +22,7 @@ The v4.2 API introduces the following changes:
 * Addition of error cause in error responses from the DPA.
 * Addition of an Eligibility API (see Section [5.7](#5-7-eligibility)).
 
-## 3. Terminology {#3-terminology}
+## 3. Terminology
 
 This document uses the following terms:
 
@@ -34,13 +34,13 @@ This document uses the following terms:
 *   **GTAF.** Google Traffic Application Function. A Google function that
     interacts with DPA on behalf of all Google apps.
 
-### 3.1 Requirements Language {#3-1-requirements-language}
+### 3.1 Requirements Language 
 
 The keywords "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD",
 "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be
 interpreted as described in [RFC 2119](https://www.ietf.org/rfc/rfc2119.txt).
 
-## 4. Data Plan Terminology {#4-data-plan-terminology}
+## 4. Data Plan Terminology 
 
 The Data Plan API MUST be able to represent data plans defined in terms of
 different URLs (e.g., all traffic to *.acmefake.com[^1] is charged at a
@@ -100,7 +100,7 @@ of data plans that are representative of the concepts that we want to capture.
 
 **Figure 1. Sample data plans.**
 
-## 5. API Description {#5-api-description}
+## 5. API Description 
 
 At a high level, the proposed API comprises six parts:
 
@@ -125,7 +125,7 @@ happen over HTTPS (with a valid DPA SSL certificate). Depending on the actual
 business product, an operator MAY choose to implement all or a subset of these
 API components.
 
-### 5.1 Establishing Data Plan Key String {#5-1-establishing-data-plan-key-string}
+### 5.1 Establishing Data Plan Key String 
 
 GTAF uses a `data_plan_key_string`, which identifies a subscriber to the
 operator, when querying the operator's DPA. This `data_plan_key_string` MAY be
@@ -137,7 +137,7 @@ CPID is analogous to the MSISDN.
 
 Next, we explain the mechanism that establishes a CPID.
 
-#### 5.1.1 CPID Query {#5-1-1-cpid-query}
+#### 5.1.1 CPID Query 
 
 ![CPID](https://github.com/aterzis-google/data-plan-api/blob/master/Data%20Plan%20API%20CPID.png)
 
@@ -226,7 +226,7 @@ CPID_string = Base64(AES(MSISDN + carrier_app_id + TimeStamp, secret)) + mcc + m
 The mobile country code consists of 3 decimal digits and the mobile network code
 consists of 2 or 3 decimal digits.
 
-#### 5.1.2 Data Plan Key Types {#5-1-2-data-plan-key-types}
+#### 5.1.2 Data Plan Key Types
 
 Given that the `data_plan_key_string` MUST be either a CPID or a MSISDN, the
 GTAF MUST include the plan key type when querying for data plan information so
@@ -235,9 +235,9 @@ define the following data plan key types `{CPID, MSISDN}` and a
 `key_type` query parameter will be added as part of the URL
 string used by GTAF when calling the DPA.
 
-### 5.2 Querying Data Plan Status {#5-2-querying-data-plan-status}
+### 5.2 Querying Data Plan Status
 
-#### 5.2.1 GTAF-DPA Interaction {#5-2-1-gtaf-dpa-interaction}
+#### 5.2.1 GTAF-DPA Interaction
 
 ![DPA](https://github.com/aterzis-google/data-plan-api/blob/master/Data%20Plan%20API%20DPA.png)
 
@@ -270,7 +270,7 @@ association with the DPA. As part of operator onboarding process, we will check
 the validity of DPA SSL certificate. We currently REQUIRE the use of OAuth for
 mutual authentication.
 
-#### 5.2.2 Data Plan Status {#5-2-2-data-plan-status}
+#### 5.2.2 Data Plan Status
 
 The GTAF issues the following URL to get the data plan status:
 
@@ -321,7 +321,7 @@ The format of the response JSON object is as follows:
      "priority": integer,       // priority among plan modules across
                                 // all dataPlanStatus returned (opt.)
      "quotaMinutes": integer,   // package quota in minutes (opt.)
-     "expirationTime": string   // in ISO8601 extended format. (opt.)
+     "expirationTime": string   // in ISO extended format. (opt.)
      "overusagePolicy": string, // THROTTLED, BLOCKED, PAY_AS_YOU_GO (opt.)
      "currentMaxRate": integer, // in kbits per second (opt.)
      "remainingTime": integer,  // time-based remaining
@@ -387,7 +387,7 @@ representation would look like: `"flexTimeWindows": [ { "recurrenceType":
 The absence of `flexTimeWindows`implies that the same charging rate is applied
 throughout the lifetime of a data plan.
 
-#### 5.2.3 Error Cases {#5-2-3-error-cases}
+#### 5.2.3 Error Cases
 
 Currently defined error cases are:
 
@@ -446,7 +446,7 @@ The following `cause` values are currently defined:
 Otherwise, the DPA returns a 200 OK. We note that these `cause` values are used
 for all responses.
 
-### 5.3 Querying User Account {#5-3-querying-user-account}
+### 5.3 Querying User Account
 
 The GTAF issues the following URL to get user's account information:
 
@@ -473,7 +473,7 @@ The format of the response JSON object is as follows:
 The error cases and causes for the account API call are the same as the ones
 defined in Section [5.2.3](#5-2-3-error-cases).
 
-### 5.4 Querying Purchased Plans {#5-4-querying-purchased-plans}
+### 5.4 Querying Purchased Plans
 
 The GTAF issues the following URL to get user's purchased plans:
 
@@ -564,7 +564,7 @@ that the human readable strings (e.g., plan descriptions) should be in. The
 error cases and causes for the purchased plans API call are the same as the ones
 defined in [Section 5.2.3](#5-2-3-error-cases).
 
-### 5.5 Querying Upsell Offer {#5-5-querying-upsell-offer}
+### 5.5 Querying Upsell Offer
 
 The GTAF issues the following URL to get the upsell offer information:
 
@@ -649,7 +649,7 @@ that the human readable strings (e.g., plan descriptions) should be in. The
 error cases and causes for the upsell offer API call are the same as the ones
 in [Section 5.2.3](#5-2-3-error-cases).
 
-### 5.6 Data Purchase {#5-6-data-purchase}
+### 5.6 Data Purchase 
 
 The purchase plan API defines how to purchase data plans by GTAF. The GTAF
 initiates the transaction to purchase one data plan to the DPA. The request
@@ -657,7 +657,7 @@ SHALL include a unique transaction identifiers (transactionId) to trace requests
 and avoid duplicate transaction execution. The DPA MUST respond with a
 success/failure response.
 
-#### 5.6.1 Purchase Request {#5-6-1-purchase-request}
+#### 5.6.1 Purchase Request
 
 Once it receives a request from a client, the GTAF issues a POST request to the
 DPA. The URL of the request is:
@@ -684,7 +684,7 @@ The body of the request includes the following fields:
 }
 ```
 
-#### 5.6.2 Purchase Response {#5-6-2-purchase-response}
+#### 5.6.2 Purchase Response 
 
 The DPA SHALL return the error codes and causes defined in 
 Section [5.2.3](#5-2-3-error-cases). Additionally, the following error 
@@ -731,7 +731,7 @@ details:
 If the `planActivationTime` is missing, GTAF SHALL assume that the plan has been
 activated.
 
-### 5.7 Eligibility {#5-7-eligibility}
+### 5.7 Eligibility
 
 The GTAF may issue the following eligibility request to check whether a user,
 identified by CPID or MSISDN, is eligible to purchase a plan.
