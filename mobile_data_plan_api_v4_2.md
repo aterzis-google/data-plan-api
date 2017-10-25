@@ -270,6 +270,9 @@ association with the DPA. As part of operator onboarding process, we will check
 the validity of DPA SSL certificate. We currently REQUIRE the use of OAuth for
 mutual authentication.
 
+All timestamp fields defined below MUST follow the extended ISO 8601 profile 
+defined in RFC 3339. 
+
 #### 5.2.2 Data Plan Status
 
 The GTAF issues the following URL to get the data plan status:
@@ -296,7 +299,7 @@ The format of the response JSON object is as follows:
    "planId": string,            // Plan identifier. Can be used to
                                 // refer to the plan during
                                 // upsells, etc. (req.)
-   "expirationTime": string     // in ISO8601 extended format. (req.)
+   "expirationTime": string     // in timestamp format. (req.)
    "planModuleStatus" : [       // (req.)
     {
      "quotaBytes": integer,     // package quota in bytes (opt.)
@@ -332,8 +335,8 @@ The format of the response JSON object is as follows:
      "flexTimeWindows": [       // flex time rate window (opt.)
        {"recurrenceType": string// DAILY, DAILY_EXCEPT_WEEKEND,
                                 // WEEKEND. (req.)
-        "startTime": string,    // ISO 8601 extended w/o date. (req.)
-        "endTime": string,      // ISO 8601 extended w/o date. (req.)
+        "startTime": string,    // timestamp format w/o date. (req.)
+        "endTime": string,      // timestamp format w/o date. (req.)
         "accessBlocked": bool   // a boolean indicating whether Internet
                                 // access is blocked (opt.)
         "discountPercentage": integer
@@ -352,7 +355,7 @@ The format of the response JSON object is as follows:
  ],
  "responseStaleTime": string,   // Indicates when dataPlanStatus
                                 // information becomes invalid.
-                                // In ISO8601 extended format. (opt.)
+                                // In timestamp format. (opt.)
 }
 ```
 
@@ -465,7 +468,7 @@ The format of the response JSON object is as follows:
    "accountType": string,               // PREPAID, POSTPAID (opt.)
    "responseStaleTime": string, // Indicates when user account
                                 // information becomes invalid.
-                                // In ISO8601 extended format. (opt.)
+                                // In timestamp format. (opt.)
   }
 }
 ```
@@ -498,14 +501,14 @@ The format of the response JSON object is as follows:
     "connectionType": string,    // CONNECTION_2_G, CONNECTION_3_G,
                                  // CONNECTION_4_G, CONNECTION_ALL
                                  // (all connection types). (opt.)
-    "expirationTime": string,    // in ISO8601 extended format. (req.)
+    "expirationTime": string,    // in timestamp format. (req.)
     "planModuleStatus" : [       // (req.)
     {
      "remainingBytes": integer,  // (opt.)
      "pmtcs": [                  // pmtcs that this module applies (req.)
        string,                   // e.g., "MUSIC", "GAME"
      ]
-     "expirationTime": string    // in ISO8601 extended format. (opt.)
+     "expirationTime": string    // in timestamp format. (opt.)
      "overusagePolicy": string,  // THROTTLED, BLOCKED,
                                  // PAY_AS_YOU_GO (opt.)
      "currentmaxRate": integer,  // in kbits per second (opt.)
@@ -533,8 +536,8 @@ The format of the response JSON object is as follows:
      {
       "recurrenceType": string,  // DAILY, DAILY_EXCEPT_WEEKEND,
                                  // WEEKEND (req.)
-      "startTime": string,       // ISO 8601 extended w/o date. (req.)
-      "endTime": string,         // ISO 8601 extended w/o date. (req.)
+      "startTime": string,       // timestamp format w/o date. (req.)
+      "endTime": string,         // timestamp format w/o date. (req.)
       "accessBlocked": bool      // is access blocked (opt.)
       "discountPercentage": integer
                                  // 0-100 normalized by highest rate (opt.)
@@ -552,7 +555,7 @@ The format of the response JSON object is as follows:
   ],
  "responseStaleTime": string,   // Indicates when purchased plan
                                 // information becomes invalid.
-                                // In ISO8601 extended format. (opt.)
+                                // In timestamp format. (opt.)
 }
 ```
 
@@ -624,7 +627,7 @@ The format of the response JSON object is as follows:
   ],
   "responseStaleTime": string,   // Indicates when upsell offer
                                  // information becomes invalid.
-                                 // In ISO8601 extended format. (opt.)
+                                 // In timestamp format. (opt.)
  }
 }
 ```
@@ -716,7 +719,7 @@ details:
                                     // for successful transaction. (opt.)
 
     "planActivationTime" : string,  // Time when plan will be activated,
-                                    // in ISO8601 extended format. (opt.)
+                                    // in timestamp format. (opt.)
   },
  // walletInfo is optionally populated if DPA can get the updated balance
  // after the transaction is completed. Otherwise, client will call
