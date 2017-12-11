@@ -740,7 +740,7 @@ The GTAF may issue the following eligibility request to check whether a user,
 identified by CPID or MSISDN, is eligible to purchase a plan.
 
 ```
-GET DPA/{data_plan_key_string}/Eligiblity/{plan_id}?key_type={MSISDN,CPID}
+GET DPA/{data_plan_key_string}/Eligibility/{plan_id}?key_type={MSISDN,CPID}
 ```
 
 Note that `plan_id` is the unique identifier for the plan that can be used to
