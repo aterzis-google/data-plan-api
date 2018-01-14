@@ -316,7 +316,7 @@ The format of the response JSON object is as follows:
                                 // "REMAINING_DATA_LOW",
                                 // Data level is high, do nothing.                                                                                             // "REMAINING_DATA_HIGH"
                                 // Exactly one of the "remainingBytes",
-                                // "remainingTime", and "balanceLevel" 
+                                // "remainingTime", and "remainingBalanceLevel" 
                                 // should be included in the response.
      "pmtcs": [                 // PMTCs that this module applies (req.)
        string                   // e.g., "VIDEO_BROWSING"
