@@ -184,7 +184,7 @@ error. The error response body has the following structure:
 
 ```
 {
- "error": string
+ "error": string,
  "cause": integer
 }
 ```
