@@ -1,5 +1,7 @@
 ## Public Data Plan API v4.2
 
+**Note:** This is a deprecated version of the API. For the current API go to: https://developers.google.com/mobile-data-plan/
+
 ### gtaf-eng@google.com
 
 ### May 30th, 2017
